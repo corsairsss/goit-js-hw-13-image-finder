@@ -33,9 +33,3 @@ export default {
     this.page = 1;
   },
 };
-// setTimeout(() => {
-//   window.scrollTo({
-//     top: currentHeight,
-//     behavior: 'smooth',
-//   });
-// }, 500);
