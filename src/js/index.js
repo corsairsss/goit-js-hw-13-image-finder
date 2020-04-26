@@ -21,7 +21,6 @@ refs.btnSearch.addEventListener('click', boo);
 refs.btnLoadMore.addEventListener('click', loadmore);
 refs.btnScrollToUp.addEventListener('click', toUpPage);
 refs.gallary.addEventListener('click', clickImg);
-
 function boo(e) {
   e.preventDefault();
   pixabayServices.page = 1;
@@ -32,7 +31,8 @@ function boo(e) {
   pixabayServices.fetchArticles().then(imgArray => {
     crateCards(imgArray);
   });
-  refs.btnScrollToUp.classList.add('is-visible');
+  
+  window.addEventListener('scroll',appearBtnUp);
   refs.inputSearchImg.elements.query.value = '';
 }
 
@@ -59,6 +59,8 @@ function toUpPage() {
     top: 0,
     behavior: 'smooth',
   });
+  refs.btnScrollToUp.classList.remove('is-visible');
+ setTimeout(()=> window.addEventListener('scroll',appearBtnUp),4000);
 }
 
 function clickImg(e) {
@@ -82,4 +84,10 @@ function closeModal() {
     .querySelector('.imgInModalWindow')
     .removeEventListener('click',closeModal);
   instance.close();
+}
+
+function appearBtnUp(){
+  if (window.scrollY>0) refs.btnScrollToUp.classList.add('is-visible');
+  window.removeEventListener('scroll',appearBtnUp);
+
 }

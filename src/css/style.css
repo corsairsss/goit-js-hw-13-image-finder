@@ -8,15 +8,22 @@ body {
 }
 
 .search-form {
+  margin-top: 30px;
   margin-bottom: 30px;
   text-align: center;
 }
-.js-input {
+.search-form input {
   width: 300px;
-  height: 50px;
-  font-size: 30px;
+  height: 40px;
+  font-size: 20px;
+  margin: 0;
+  padding: 0;
+  padding-left: 10px;
 }
-
+.js-btn {
+  height: 35px;
+  cursor: pointer;
+}
 .is-hiden {
   display: none;
 }
@@ -28,7 +35,7 @@ body {
   padding: 0;
   margin: 0 10px 0 10px;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: repeat(auto-fill, minmax(440px, 1fr));
   grid-column-gap: 15px;
 }
 .photo-card__img {
@@ -39,10 +46,27 @@ body {
 
 .stats {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  grid-template-columns: repeat(4, min-content);
+  justify-content: center;
+  grid-column-gap: 30px;
+  text-align: center;
 }
 .btn-load-more {
   margin: 0 auto;
+  margin-bottom: 20px;
+  border: 2px solid rgb(0, 0, 0);
+  width: 140px;
+  height: 50px;
+  background-color: grey;
+  color: white;
+  cursor: pointer;
+  font-size: 20px;
+}
+.btn-load-more:focus {
+  outline: none;
+}
+.btn-load-more:active {
+  background-color: rgb(196, 189, 189);
 }
 
 .btn-up {
@@ -60,11 +84,10 @@ body {
   color: rgb(0, 0, 0);
   background-image: url('../images/arrow-up.png');
 }
+
 .is-visible {
   display: block;
 }
-.btnModal {
-  position: absolute;
-  top: 0;
-  right: 0;
+.btn-up:focus {
+  outline: none;
 }
