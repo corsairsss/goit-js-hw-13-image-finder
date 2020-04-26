@@ -1,16 +1,14 @@
 import notyfOptions from '../config/notyf-options.js';
-import '../css/style.css';
-import { Notyf } from 'notyf';
-import 'notyf/notyf.min.css';
 import pixabayServices from './apiService.js';
 import cardImg from '../templates/card-img.hbs';
-import * as basicLightbox from 'basiclightbox';
+import { Notyf } from 'notyf';
+import modalWindow from '../config/modal-window.js';
+import '../css/style.css';
+import 'notyf/notyf.min.css';
 import 'basiclightbox/dist/basicLightbox.min.css';
-const instance = basicLightbox.create(`
-<div><p>sdkgfmdslkvgnjdflvgndl</p></div>
 
- `);
 // --------------------------------------
+let instance = '';
 const notyf = new Notyf(notyfOptions);
 const refs = {
   inputSearchImg: document.querySelector('#search-form'),
@@ -23,6 +21,7 @@ refs.btnSearch.addEventListener('click', boo);
 refs.btnLoadMore.addEventListener('click', loadmore);
 refs.btnScrollToUp.addEventListener('click', toUpPage);
 refs.gallary.addEventListener('click', clickImg);
+
 function boo(e) {
   e.preventDefault();
   pixabayServices.page = 1;
@@ -55,8 +54,7 @@ function loadmore() {
     });
   });
 }
-function toUpPage(e) {
-  e.preventDefault();
+function toUpPage() {
   window.scrollTo({
     top: 0,
     behavior: 'smooth',
@@ -64,14 +62,24 @@ function toUpPage(e) {
 }
 
 function clickImg(e) {
-  e.preventDefault();
-  console.log(e.target);
-  if (e.target.nodeName === 'IMG') modalOpen();
+  // const arrayImg = document.querySelectorAll('.photo-card__img');
+  // const arrImgLargeUrl = [];
+  // arrayImg.forEach(img => arrImgLargeUrl.push(img.dataset.url));
+ 
+  modalWindow.currentLargeUrl = e.target.dataset.url;
+  instance = modalWindow.instance();
+
+  if (e.target.nodeName === 'IMG') {
+    instance.show();
+  }
+  document
+    .querySelector('.imgInModalWindow')
+    .addEventListener('click',closeModal);
 }
 
-function modalClose() {
+function closeModal() {
+  document
+    .querySelector('.imgInModalWindow')
+    .removeEventListener('click',closeModal);
   instance.close();
-}
-function modalOpen() {
-  instance.show();
 }

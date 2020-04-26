@@ -6,6 +6,7 @@ body {
   margin: 0;
   /* transform: translate(50%); */
 }
+
 .search-form {
   margin-bottom: 30px;
   text-align: center;
@@ -30,7 +31,7 @@ body {
   grid-template-columns: 1fr 1fr 1fr;
   grid-column-gap: 15px;
 }
-.photo-card img {
+.photo-card__img {
   display: block;
   width: 100%;
   height: auto;
@@ -61,4 +62,9 @@ body {
 }
 .is-visible {
   display: block;
+}
+.btnModal {
+  position: absolute;
+  top: 0;
+  right: 0;
 }
