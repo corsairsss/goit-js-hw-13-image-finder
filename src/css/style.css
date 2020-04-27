@@ -8,7 +8,7 @@ body {
 }
 
 .search-form {
-  margin-top: 30px;
+  padding-top: 15px;
   margin-bottom: 30px;
   text-align: center;
 }
@@ -53,7 +53,7 @@ body {
 }
 .btn-load-more {
   margin: 0 auto;
-  margin-bottom: 20px;
+  /* margin-bottom: 20px; */
   border: 2px solid rgb(0, 0, 0);
   width: 140px;
   height: 50px;
@@ -82,7 +82,6 @@ body {
   border: 2px solid rgb(226, 166, 166);
   background-color: rgb(255, 255, 255);
   color: rgb(0, 0, 0);
-  background-image: url('../images/arrow-up.png');
 }
 
 .is-visible {

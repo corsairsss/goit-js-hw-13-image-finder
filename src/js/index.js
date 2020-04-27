@@ -1,15 +1,10 @@
-import notyfOptions from '../config/notyf-options.js';
+import * as basicLightbox from 'basiclightbox';
+import 'basiclightbox/dist/basicLightbox.min.css';
 import pixabayServices from './apiService.js';
 import cardImg from '../templates/card-img.hbs';
-import { Notyf } from 'notyf';
-import modalWindow from '../config/modal-window.js';
 import '../css/style.css';
-import 'notyf/notyf.min.css';
-import 'basiclightbox/dist/basicLightbox.min.css';
 
 // --------------------------------------
-let instance = '';
-const notyf = new Notyf(notyfOptions);
 const refs = {
   inputSearchImg: document.querySelector('#search-form'),
   btnSearch: document.querySelector('.js-btn'),
@@ -17,22 +12,26 @@ const refs = {
   btnLoadMore: document.querySelector('.js-btn_load_more'),
   btnScrollToUp: document.querySelector('.btn-up'),
 };
-refs.btnSearch.addEventListener('click', boo);
+refs.btnSearch.addEventListener('click', renderImg);
 refs.btnLoadMore.addEventListener('click', loadmore);
 refs.btnScrollToUp.addEventListener('click', toUpPage);
 refs.gallary.addEventListener('click', clickImg);
-function boo(e) {
+
+function renderImg(e) {
   e.preventDefault();
   pixabayServices.page = 1;
   refs.gallary.innerHTML = '';
   refs.btnLoadMore.classList.remove('is-visible');
-  const name = refs.inputSearchImg.elements.query.value;
-  pixabayServices.searchquery = name;
-  pixabayServices.fetchArticles().then(imgArray => {
-    crateCards(imgArray);
-  });
-  
-  window.addEventListener('scroll',appearBtnUp);
+  const nameSearchingImg = refs.inputSearchImg.elements.query.value;
+  pixabayServices.searchquery = nameSearchingImg;
+  pixabayServices
+    .fetchArticles()
+    .then(imgArray => {
+      crateCards(imgArray);
+    })
+    .catch(error => console.log(error));
+
+  window.addEventListener('scroll', appearBtnUp);
   refs.inputSearchImg.elements.query.value = '';
 }
 
@@ -45,14 +44,17 @@ function crateCards(imgArray) {
 function loadmore() {
   let currentHeight =
     document.body.clientHeight - refs.btnLoadMore.offsetHeight;
-  pixabayServices.fetchArticles().then(imgArray => {
-    crateCards(imgArray);
+  pixabayServices
+    .fetchArticles()
+    .then(imgArray => {
+      crateCards(imgArray);
 
-    window.scrollTo({
-      top: currentHeight,
-      behavior: 'smooth',
-    });
-  });
+      window.scrollTo({
+        top: currentHeight,
+        behavior: 'smooth',
+      });
+    })
+    .catch(error => console.log(error));
 }
 function toUpPage() {
   window.scrollTo({
@@ -60,34 +62,19 @@ function toUpPage() {
     behavior: 'smooth',
   });
   refs.btnScrollToUp.classList.remove('is-visible');
- setTimeout(()=> window.addEventListener('scroll',appearBtnUp),4000);
+  setTimeout(() => window.addEventListener('scroll', appearBtnUp), 3000);
 }
 
 function clickImg(e) {
-  // const arrayImg = document.querySelectorAll('.photo-card__img');
-  // const arrImgLargeUrl = [];
-  // arrayImg.forEach(img => arrImgLargeUrl.push(img.dataset.url));
- 
-  modalWindow.currentLargeUrl = e.target.dataset.url;
-  instance = modalWindow.instance();
-
+  const instance = basicLightbox.create(
+    `<img src="${e.target.dataset.url}" class="imgInModalWindow"></img>`,
+  );
   if (e.target.nodeName === 'IMG') {
     instance.show();
   }
-  document
-    .querySelector('.imgInModalWindow')
-    .addEventListener('click',closeModal);
 }
 
-function closeModal() {
-  document
-    .querySelector('.imgInModalWindow')
-    .removeEventListener('click',closeModal);
-  instance.close();
-}
-
-function appearBtnUp(){
-  if (window.scrollY>0) refs.btnScrollToUp.classList.add('is-visible');
-  window.removeEventListener('scroll',appearBtnUp);
-
+function appearBtnUp() {
+  if (window.scrollY > 0) refs.btnScrollToUp.classList.add('is-visible');
+  window.removeEventListener('scroll', appearBtnUp);
 }
